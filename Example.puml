@@ -1,0 +1,103 @@
+@startuml
+title Tournament Results System
+
+' Interfaces
+interface ITournament {
+  +getId(): int
+  +getName(): String
+  +getDate(): LocalDate
+  +getResults(): List<PlayerResult>
+  +calculateChampionshipPoints(): void
+}
+
+interface PointCalculator {
+  +calculatePoints(placement: int): int
+}
+
+' Parent tournament
+class Tournament {
+  -id: int
+  -name: String
+  -date: LocalDate
+  -divisions: List<DivisionTournament>
+}
+
+' Division-specific tournaments
+class DivisionTournament implements ITournament {
+  -division: AgeDivision
+  -pointCalculator: PointCalculator
+  -results: List<PlayerResult>
+  +calculateChampionshipPoints(): void
+}
+
+' Enum for divisions
+enum AgeDivision {
+  JUNIOR
+  SENIOR
+  MASTERS
+}
+
+' Point calculation strategies
+class CasualPointCalculator implements PointCalculator
+class ChallengePointCalculator implements PointCalculator
+class CupPointCalculator implements PointCalculator
+
+' Core domain
+class Player {
+  -id: int
+  -name: String
+  +getTotalPoints(): int
+  +getWinPercentage(): double
+}
+
+class PlayerResult {
+  -player: Player
+  -placement: int
+  -matchPoints: int
+  -opponentWinPercentage: double
+  -championshipPoints: int
+}
+
+' Services
+class MenuHandler {
+  +displayMenu(): void
+  +handleUserSelection(): void
+}
+
+class ResultEntryService {
+  +enterTournamentResults(): void
+}
+
+class SearchService {
+  +searchTournamentByName(name: String): ITournament
+  +searchPlayerResults(name: String): List<PlayerResult>
+}
+
+class ComparisonService {
+  +comparePlayerPoints(): List<Player>
+}
+
+class Database {
+  +saveTournament(t: ITournament): void
+  +queryTournament(name: String): ITournament
+  +queryPlayerResults(name: String): List<PlayerResult>
+  +getAllPlayers(): List<Player>
+}
+
+' Relationships
+Tournament "1" --> "many" DivisionTournament
+DivisionTournament "1" --> "1" AgeDivision
+DivisionTournament "1" --> "many" PlayerResult
+DivisionTournament --> PointCalculator
+
+PlayerResult "1" --> "1" Player
+
+MenuHandler --> ResultEntryService
+MenuHandler --> SearchService
+MenuHandler --> ComparisonService
+
+ResultEntryService --> Database
+SearchService --> Database
+ComparisonService --> Database
+
+@enduml
