@@ -3,7 +3,9 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .kotlin
-.idea
+*.png
+*.puml
+database.txt
 
 ### Eclipse ###
 .apt_generated
