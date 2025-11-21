@@ -18,6 +18,20 @@ public class Database implements iDatabase{
         return INSTANCE;
     }
 
+    public Player getPlayer(int id) {
+        return players.get(id);
+    }
+    public Tournament getTournament(int id) {
+        return tournaments.get(id);
+    }
+    public Map<Integer, Player> getPlayers() {
+        return players;
+    }
+    public Map<Integer, Tournament> getTournaments() {
+        return tournaments;
+    }
+
+    @Override
     public File connect(){
         try {
             if (DATABASE_FILE.createNewFile()) {
@@ -33,15 +47,21 @@ public class Database implements iDatabase{
             return null;
         }
     }
+
+    @Override
     public void disconnect(){
         saveDatabase();
         players.clear();
         tournaments.clear();
     }
+
+    @Override
     public void saveTournament(Tournament tournament){
         tournaments.put(tournament.id, tournament);
         saveDatabase();
     }
+
+    @Override
     public void savePlayer(Player player){
         players.put(player.getId(), player);
         saveDatabase();

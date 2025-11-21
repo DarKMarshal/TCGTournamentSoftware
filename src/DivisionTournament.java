@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class DivisionTournament implements iTournament{
-    private AgeDivision division;
+    private AgeDivision ageDivision;
     private pointCalculator pointCalculator;
     private List<PlayerResult> results;
     public int getId(){
@@ -16,6 +16,24 @@ public class DivisionTournament implements iTournament{
     }
     public List<PlayerResult> getResults(){
         return null;
+    }
+
+    public DivisionTournament(String division, List<PlayerResult> results){
+        division = division.toLowerCase();
+
+        switch(division){
+            case "junior":
+                ageDivision = AgeDivision.Junior;
+                break;
+            case "senior":
+                ageDivision = AgeDivision.Senior;
+                break;
+            case "master":
+                ageDivision = AgeDivision.Master;
+                break;
+        }
+
+        this.results = results;
     }
     public void calculateChampionshipPoints(){
 

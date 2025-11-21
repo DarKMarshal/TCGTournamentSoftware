@@ -25,6 +25,7 @@ public class menuHandler {
         switch (selection) {
             case 1:
                 System.out.println("Creating a new tournament...\n");
+                ResultEntryService.enterResultData();
                 break;
             case 2:
                 System.out.println("Viewing a tournament...\n");
