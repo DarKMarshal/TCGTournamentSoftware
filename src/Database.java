@@ -2,26 +2,33 @@ import java.io.*;
 import java.util.*;
 
 public class Database implements iDatabase{
-    private File databaseFile;
+    private static final Database INSTANCE = new Database("database.txt");
+
+    private final File DATABASE_FILE;
     private Map<Integer, Player> players;
     private Map<Integer, Tournament> tournaments;
 
-    public Database(String filepath) {
-        this.databaseFile = new File(filepath);
+    private Database(String filepath) {
+        this.DATABASE_FILE = new File(filepath);
         this.players = new HashMap<>();
         this.tournaments = new HashMap<>();
     }
 
+    public static Database getInstance() {
+        return INSTANCE;
+    }
+
     public File connect(){
         try {
-            if (!databaseFile.exists()) {
-                databaseFile.createNewFile();
+            if (DATABASE_FILE.createNewFile()) {
+                System.out.println("Database file created\n");
                 saveDatabase();
             } else {
                 loadDatabase();
             }
-            return databaseFile;
+            return DATABASE_FILE;
         } catch (IOException e) {
+            System.out.println("Error creating database file");
             e.printStackTrace();
             return null;
         }
@@ -41,7 +48,7 @@ public class Database implements iDatabase{
     }
 
     private void saveDatabase() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(databaseFile))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DATABASE_FILE))) {
             oos.writeObject(players);
             oos.writeObject(tournaments);
         } catch (IOException e) {
@@ -51,7 +58,7 @@ public class Database implements iDatabase{
 
     @SuppressWarnings("unchecked")
     private void loadDatabase() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(databaseFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DATABASE_FILE))) {
             players = (Map<Integer, Player>) ois.readObject();
             tournaments = (Map<Integer, Tournament>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
