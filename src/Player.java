@@ -1,13 +1,31 @@
+import org.jetbrains.annotations.NotNull;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Player implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String name;
 
-    //TODO Change constructor to accept database stored information
-    public Player(int id, String name) {
+    private Player(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @NotNull
+    public static Player getOrCreate(int id, String name) {
+        Database db = Database.getInstance();
+        Player existingPlayer = db.getPlayer(id);
+        if (existingPlayer != null) {
+            return existingPlayer;
+        }
+
+        Player newPlayer = new Player(id, name);
+        db.savePlayer(newPlayer);
+        return newPlayer;
     }
     public int getId() {
         return id;
