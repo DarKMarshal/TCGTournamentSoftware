@@ -8,7 +8,7 @@ A Java-based tournament management system for Trading Card Games that handles pl
 - **Tournament Organization**: Support for multiple division types (Age-based, Casual, Challenge, Cup)
 - **Points Calculation**: Automatic point calculation based on tournament type and placement
 - **Results Tracking**: Record and store player results for each tournament
-- **File-based Database**: Persistent storage of player and tournament data
+- **File-based database**: Persistent storage of player and tournament data
 - **Search & Comparison**: Find players and compare tournament results
 
 ## Project Structure
@@ -18,7 +18,7 @@ A Java-based tournament management system for Trading Card Games that handles pl
 - `DivisionTournament.java` - Individual tournament divisions
 - `AgeDivision.java` - Age-based division types
 - `PlayerResult.java` - Player performance data
-- `Database.java` - Singleton file-based storage system
+- `database.java` - Singleton file-based storage system
 - `pointCalculator.java` - Interface for scoring systems
 - Point calculator implementations:
   - `CasualPointCalculator.java`

@@ -1,20 +1,20 @@
 import java.io.*;
 import java.util.*;
 
-public class Database implements iDatabase{
-    private static final Database INSTANCE = new Database("database.txt");
+public class database implements iDatabase{
+    private static final database INSTANCE = new database("database.txt");
 
     private final File DATABASE_FILE;
     private Map<Integer, Player> players;
     private Map<Integer, Tournament> tournaments;
 
-    private Database(String filepath) {
+    private database(String filepath) {
         this.DATABASE_FILE = new File(filepath);
         this.players = new HashMap<>();
         this.tournaments = new HashMap<>();
     }
 
-    public static Database getInstance() {
+    public static database getInstance() {
         return INSTANCE;
     }
 

@@ -17,7 +17,7 @@ public class Player implements Serializable {
 
     @NotNull
     public static Player getOrCreate(int id, String name) {
-        Database db = Database.getInstance();
+        database db = database.getInstance();
         Player existingPlayer = db.getPlayer(id);
         if (existingPlayer != null) {
             return existingPlayer;

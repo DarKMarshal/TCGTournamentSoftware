@@ -18,7 +18,7 @@ public class Tournament implements Serializable {
     }
 
     public static Tournament getOrCreate(String name, List<DivisionTournament> tournamentsList) {
-        Database db = Database.getInstance();
+        database db = database.getInstance();
 
         // Check if a tournament with this name already exists
         Tournament existing = db.getTournaments().values().stream()

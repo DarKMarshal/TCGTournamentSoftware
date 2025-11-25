@@ -3,6 +3,7 @@ import java.util.List;
 
 public class DivisionTournament implements iTournament{
     private AgeDivision ageDivision;
+    private String tournamentType;
     private pointCalculator pointCalculator;
     private List<PlayerResult> results;
     public int getId(){
@@ -18,9 +19,8 @@ public class DivisionTournament implements iTournament{
         return null;
     }
 
-    public DivisionTournament(String division, List<PlayerResult> results){
+    public DivisionTournament(String division, String type, List<PlayerResult> results){
         division = division.toLowerCase();
-
         switch(division){
             case "junior":
                 ageDivision = AgeDivision.Junior;
@@ -32,10 +32,20 @@ public class DivisionTournament implements iTournament{
                 ageDivision = AgeDivision.Master;
                 break;
         }
-
+        this.tournamentType = type;
         this.results = results;
+        this.pointCalculator = createPointCalculator(type);
     }
-    public void calculateChampionshipPoints(){
 
+    private pointCalculator createPointCalculator(String type) {
+        return switch(type.toLowerCase()) {
+            case "casual" -> new CasualPointCalculator();
+            case "challenge" -> new ChallengePointCalculator();
+            case "cup" -> new CupPointCalculator();
+            default -> throw new IllegalArgumentException("Unknown tournament type: " + type);
+        };
+    }
+    public void calculateChampionshipPoints() {
+        pointCalculator.calculateChampionshipPoints(this);
     }
 }
