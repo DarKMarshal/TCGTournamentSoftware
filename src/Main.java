@@ -1,5 +1,5 @@
 void main() {
-    Database db = Database.getInstance();
+    database db = database.getInstance();
     menuHandler menu = new menuHandler();
     db.connect();
     menu.displayMenu();
