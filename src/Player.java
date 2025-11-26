@@ -1,12 +1,6 @@
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serial;
-import java.io.Serializable;
-
-public class Player implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
+public class Player{
     private int id;
     private String name;
 

@@ -1,11 +1,14 @@
-import java.io.Serializable;
-
-public class PlayerResult implements Serializable {
+public class PlayerResult {
     private Player player;
     private int placement;
     private int matchPoints;
     private double opponentWinPercentage;
     private int championshipPointsEarned;
+
+    public PlayerResult(Player player, int placement){
+        this.player = player;
+        this.placement = placement;
+    }
 
     public PlayerResult(Player player, int placement, int matchPoints, double opponentWinPercentage){
         this.player = player;

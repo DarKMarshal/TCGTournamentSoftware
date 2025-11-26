@@ -23,18 +23,17 @@ public class ResultEntryService {
         do {
             System.out.println("Enter the tournament name: ");
             tournamentName = scanner.nextLine();
-            scanner.nextLine();
 
             System.out.println("What tyoe of tournament is this? (Casual/Challenge/Cup): ");
             tournamentType = scanner.nextLine();
-            scanner.nextLine();
 
             System.out.println("Enter Age Division (Junior/Senior/Master): ");
             divisionName = scanner.nextLine();
-            scanner.nextLine();
 
             System.out.println("Enter the number of players: ");
             playerCount = scanner.nextInt();
+
+            scanner.nextLine();
 
 //            System.out.println("Enter the tournament date: ");
 //            String tournamentDate = scanner.nextLine();
@@ -47,18 +46,22 @@ public class ResultEntryService {
 
                 System.out.println("Enter Player " + i + " ID: ");
                 playerId = scanner.nextInt();
+                scanner.nextLine();
 
                 System.out.println("Enter Player " + i + " Name: ");
                 playerName = scanner.nextLine();
-                scanner.nextLine();
 
                 player = Player.getOrCreate(playerId, playerName);
 
                 System.out.println("Enter Player " + i + " Match Points: ");
                 matchPoints = scanner.nextInt();
 
+                scanner.nextLine();
+
                 System.out.println("Enter Player " + i + " Opponent Win Percentage: ");
                 opponentWinPercentage = scanner.nextDouble();
+
+                scanner.nextLine();
 
                 results.add(new PlayerResult(player, placement, matchPoints, opponentWinPercentage));
             }
@@ -67,7 +70,6 @@ public class ResultEntryService {
 
             System.out.println("Do you want to add another Age Division? (Y/N)");
             multipleDivisions = scanner.nextLine();
-            scanner.nextLine();
 
         }while (multipleDivisions.equals("Y"));
 

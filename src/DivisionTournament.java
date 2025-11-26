@@ -16,7 +16,7 @@ public class DivisionTournament implements iTournament{
         return null;
     }
     public List<PlayerResult> getResults(){
-        return null;
+        return results;
     }
 
     public DivisionTournament(String division, String type, List<PlayerResult> results){
@@ -48,4 +48,13 @@ public class DivisionTournament implements iTournament{
     public void calculateChampionshipPoints() {
         pointCalculator.calculateChampionshipPoints(this);
     }
+
+    public AgeDivision getAgeDivision() {
+        return ageDivision;
+    }
+
+    public String getTournamentType() {
+        return tournamentType;
+    }
+
 }

@@ -1,10 +1,6 @@
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
-public class Tournament implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Tournament {
     public int id;
     public String name;
 //    public LocalDateTime date;
@@ -38,5 +34,17 @@ public class Tournament implements Serializable {
         Tournament newTournament = new Tournament(nextId, name, tournamentsList);
         db.saveTournament(newTournament);
         return newTournament;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public List<DivisionTournament> getDivisions() {
+        return tournamentsList;
+    }
+
+    public String getName() {
+        return name;
     }
 }
