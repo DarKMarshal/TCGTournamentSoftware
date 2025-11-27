@@ -83,10 +83,13 @@ public class database implements iDatabase {
                 player_id INTEGER NOT NULL,
                 placement INTEGER NOT NULL,
                 points INTEGER DEFAULT 0,
+                match_points INTEGER DEFAULT 0,
+                opponent_win_percentage REAL DEFAULT 0.0,
                 FOREIGN KEY (division_id) REFERENCES divisions(id) ON DELETE CASCADE,
                 FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE
             )
         """;
+
 
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createPlayers);
@@ -120,7 +123,7 @@ public class database implements iDatabase {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return Player.getOrCreate(rs.getInt("id"), rs.getString("name"));
+                return new Player(rs.getInt("id"), rs.getString("name"));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving player with ID: " + id);
@@ -136,7 +139,7 @@ public class database implements iDatabase {
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 int id = rs.getInt("id");
-                players.put(id, Player.getOrCreate(id, rs.getString("name")));
+                players.put(id, new Player(id, rs.getString("name")));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving players");
@@ -201,18 +204,21 @@ public class database implements iDatabase {
     }
 
     private void saveResults(int divisionId, List<PlayerResult> results) throws SQLException {
-        String resultSql = "INSERT INTO results (division_id, player_id, placement, points) VALUES (?, ?, ?, ?)";
+        String resultSql = "INSERT INTO results (division_id, player_id, placement, points, match_points, opponent_win_percentage) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(resultSql)) {
             for (PlayerResult result : results) {
                 pstmt.setInt(1, divisionId);
                 pstmt.setInt(2, result.getPlayer().getId());
                 pstmt.setInt(3, result.getPlacement());
                 pstmt.setInt(4, result.getChampionshipPointsEarned());
+                pstmt.setInt(5, result.getMatchPoints());
+                pstmt.setDouble(6, result.getOpponentWinPercentage());
                 pstmt.addBatch();
             }
             pstmt.executeBatch();
         }
     }
+
 
     public Tournament getTournament(int id) {
         String sql = "SELECT * FROM tournaments WHERE id = ?";
@@ -230,6 +236,26 @@ public class database implements iDatabase {
         }
         return null;
     }
+
+    public List<Tournament> getTournamentsByName(String searchTerm) {
+        List<Tournament> matchingTournaments = new ArrayList<>();
+        String sql = "SELECT * FROM tournaments WHERE LOWER(name) LIKE LOWER(?) ORDER BY id";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                List<DivisionTournament> divisions = loadDivisionsForTournament(id);
+                matchingTournaments.add(new Tournament(id, name, divisions));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error searching tournaments by name");
+            e.printStackTrace();
+        }
+        return matchingTournaments;
+    }
+
 
     private List<DivisionTournament> loadDivisionsForTournament(int tournamentId) throws SQLException {
         List<DivisionTournament> divisions = new ArrayList<>();
@@ -251,18 +277,23 @@ public class database implements iDatabase {
     private List<PlayerResult> loadResults(int divisionId) throws SQLException {
         List<PlayerResult> results = new ArrayList<>();
         String sql = """
-            SELECT r.placement, r.points, p.id, p.name
-            FROM results r
-            JOIN players p ON r.player_id = p.id
-            WHERE r.division_id = ?
-            ORDER BY r.placement
+            SELECT r.placement, r.points, r.match_points, r.opponent_win_percentage, p.id, p.name
+                FROM results r
+                JOIN players p ON r.player_id = p.id
+                WHERE r.division_id = ?
+                ORDER BY r.placement
         """;
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, divisionId);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Player player = Player.getOrCreate(rs.getInt("id"), rs.getString("name"));
-                PlayerResult result = new PlayerResult(player, rs.getInt("placement"));
+                Player player = new Player(rs.getInt("id"), rs.getString("name"));
+                PlayerResult result = new PlayerResult(
+                        player,
+                        rs.getInt("placement"),
+                        rs.getInt("match_points"),
+                        rs.getDouble("opponent_win_percentage")
+                );
                 result.setChampionshipPointsEarned(rs.getInt("points"));
                 results.add(result);
             }

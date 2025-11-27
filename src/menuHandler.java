@@ -29,6 +29,7 @@ public class menuHandler {
                 break;
             case 2:
                 System.out.println("Viewing a tournament...\n");
+                SearchService.searchTournament();
                 break;
             case 3:
                 System.out.println("Comparing players...\n");

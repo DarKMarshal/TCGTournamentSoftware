@@ -3,9 +3,9 @@ import java.util.List;
 
 public class DivisionTournament implements iTournament{
     private AgeDivision ageDivision;
-    private String tournamentType;
-    private pointCalculator pointCalculator;
-    private List<PlayerResult> results;
+    private final String TOURNAMENT_TYPE;
+    private final pointCalculator pointCalculator;
+    private final List<PlayerResult> results;
     public int getId(){
         return 0;
     }
@@ -32,9 +32,10 @@ public class DivisionTournament implements iTournament{
                 ageDivision = AgeDivision.Master;
                 break;
         }
-        this.tournamentType = type;
+        this.TOURNAMENT_TYPE = type;
         this.results = results;
         this.pointCalculator = createPointCalculator(type);
+        calculateChampionshipPoints();
     }
 
     private pointCalculator createPointCalculator(String type) {
@@ -54,7 +55,7 @@ public class DivisionTournament implements iTournament{
     }
 
     public String getTournamentType() {
-        return tournamentType;
+        return TOURNAMENT_TYPE;
     }
 
 }
