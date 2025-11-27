@@ -4,10 +4,11 @@ public class Player{
     private int id;
     private String name;
 
-    private Player(int id, String name) {
+    Player(int id, String name) {
         this.id = id;
         this.name = name;
     }
+
 
     @NotNull
     public static Player getOrCreate(int id, String name) {

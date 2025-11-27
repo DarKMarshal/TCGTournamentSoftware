@@ -24,7 +24,7 @@ public class ResultEntryService {
             System.out.println("Enter the tournament name: ");
             tournamentName = scanner.nextLine();
 
-            System.out.println("What tyoe of tournament is this? (Casual/Challenge/Cup): ");
+            System.out.println("What type of tournament is this? (Casual/Challenge/Cup): ");
             tournamentType = scanner.nextLine();
 
             System.out.println("Enter Age Division (Junior/Senior/Master): ");
