@@ -1,3 +1,5 @@
+package TCGTournamentSoftware;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -44,21 +46,21 @@ public class ResultEntryService {
             for (int i = 1; i <= playerCount; i++) {
                 placement = i;
 
-                System.out.println("Enter Player " + i + " ID: ");
+                System.out.println("Enter TCGTournamentSoftware.Player " + i + " ID: ");
                 playerId = scanner.nextInt();
                 scanner.nextLine();
 
-                System.out.println("Enter Player " + i + " Name: ");
+                System.out.println("Enter TCGTournamentSoftware.Player " + i + " Name: ");
                 playerName = scanner.nextLine();
 
                 player = Player.getOrCreate(playerId, playerName);
 
-                System.out.println("Enter Player " + i + " Match Points: ");
+                System.out.println("Enter TCGTournamentSoftware.Player " + i + " Match Points: ");
                 matchPoints = scanner.nextInt();
 
                 scanner.nextLine();
 
-                System.out.println("Enter Player " + i + " Opponent Win Percentage: ");
+                System.out.println("Enter TCGTournamentSoftware.Player " + i + " Opponent Win Percentage: ");
                 opponentWinPercentage = scanner.nextDouble();
 
                 scanner.nextLine();
@@ -74,7 +76,7 @@ public class ResultEntryService {
         }while (multipleDivisions.equals("Y"));
 
         Tournament.getOrCreate(tournamentName, divisions);
-        System.out.println("Tournament saved successfully!");
+        System.out.println("TCGTournamentSoftware.Tournament saved successfully!");
     }
 
 }

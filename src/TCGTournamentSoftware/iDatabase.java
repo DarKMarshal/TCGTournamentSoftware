@@ -1,4 +1,4 @@
-import java.io.File;
+package TCGTournamentSoftware;
 
 public interface iDatabase {
     public void connect();

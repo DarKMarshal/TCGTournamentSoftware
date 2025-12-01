@@ -1,6 +1,8 @@
+package TCGTournamentSoftware;
+
 import java.util.List;
 
-public class CupPointCalculator implements pointCalculator{
+public class ChallengePointCalculator implements pointCalculator{
     @Override
     public void calculateChampionshipPoints(DivisionTournament tournament) {
         List<PlayerResult> results = tournament.getResults();
@@ -17,19 +19,17 @@ public class CupPointCalculator implements pointCalculator{
         int points;
 
         if (placement == 1) {
-            points = 50;
+            points = 15;
         } else if (placement == 2 && playerCount >=4) {
-            points = 40;
+            points = 12;
         } else if ((placement == 3 || placement == 4) && playerCount >= 8) {
-            points = 32;
+            points = 10;
         } else if ((placement >= 5 && placement <= 8) && playerCount >= 17) {
-            points = 25;
+            points = 8;
         } else if ((placement >= 9 && placement <= 16) && playerCount >= 48) {
-            points = 20;
+            points = 6;
         } else if ((placement >= 17 && placement <= 32) && playerCount >= 80) {
-            points = 16;
-        } else if ((placement >= 33 && placement <= 64) && playerCount >= 128) {
-            points = 13;
+            points = 4;
         }else
             points = 0;
 

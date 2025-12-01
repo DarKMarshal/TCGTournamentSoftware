@@ -1,3 +1,5 @@
+package TCGTournamentSoftware;
+
 public class PlayerResult {
     private Player player;
     private int placement;
