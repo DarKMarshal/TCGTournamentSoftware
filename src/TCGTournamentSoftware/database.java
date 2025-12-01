@@ -23,14 +23,14 @@ public class database implements iDatabase {
             connection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_PATH);
 
             if (!tablesExist()) {
-                System.out.println("New TCGTournamentSoftware.database created\n");
+                System.out.println("New database created\n");
                 createTables();
             } else {
-                System.out.println("Connected to existing TCGTournamentSoftware.database\n");
+                System.out.println("Connected to existing database\n");
             }
 
         } catch (SQLException e) {
-            System.out.println("Error connecting to TCGTournamentSoftware.database");
+            System.out.println("Error connecting to database");
             e.printStackTrace();
         }
     }
