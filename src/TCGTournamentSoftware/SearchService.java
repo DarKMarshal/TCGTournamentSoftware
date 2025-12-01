@@ -1,3 +1,5 @@
+package TCGTournamentSoftware;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,7 +49,7 @@ public class SearchService {
                     if (tournament != null) {
                         displayTournament(tournament);
                     } else {
-                        System.out.println("Tournament not found");
+                        System.out.println("TCGTournamentSoftware.Tournament not found");
                     }
                     break;
 
@@ -64,12 +66,12 @@ public class SearchService {
     }
 
     private static void displayTournament(Tournament tournament) {
-        System.out.println("Tournament " + tournament.getName() + " results: ");
-        System.out.println("Tournament Type : " + tournament.tournamentsList.getFirst().getTournamentType());
+        System.out.println("TCGTournamentSoftware.Tournament " + tournament.getName() + " results: ");
+        System.out.println("TCGTournamentSoftware.Tournament Type : " + tournament.tournamentsList.getFirst().getTournamentType());
         for (DivisionTournament division : tournament.getDivisions()) {
             System.out.println("Division: " + division.getAgeDivision());
             System.out.printf("%-10s %-20s %-15s %-18s %-20s%n",
-                    "Placement", "Player Name", "Match Points", "Opponent Win %", "Championship Points");
+                    "Placement", "TCGTournamentSoftware.Player Name", "Match Points", "Opponent Win %", "Championship Points");
             for (PlayerResult result : division.getResults()) {
                 System.out.printf("%-10d %-20s %-15d %-18.2f %-20d%n",
                         result.getPlacement(),

@@ -1,3 +1,5 @@
+package TCGTournamentSoftware;
+
 import java.util.List;
 
 public class Tournament {
