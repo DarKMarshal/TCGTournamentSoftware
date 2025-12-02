@@ -31,7 +31,7 @@ public class Player{
         return name;
     }
 
-    //TODO Implement getters for TCGTournamentSoftware.database stored information
+    //TODO Implement getters for database stored information
     public int getTotalPoints() {
         return 0;
     }

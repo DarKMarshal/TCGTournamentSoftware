@@ -7,7 +7,7 @@ public class menuHandler {
     int selection;
     public void displayMenu() {
         do {
-            System.out.println("Welcome to the TCGTournamentSoftware.Tournament Manager!\n");
+            System.out.println("Welcome to the Tournament Manager!\n");
             System.out.println("Please select an option:");
             System.out.println("1. Create a new tournament");
             System.out.println("2. View a tournament");
