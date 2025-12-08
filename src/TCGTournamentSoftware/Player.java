@@ -1,6 +1,6 @@
 package TCGTournamentSoftware;
 
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 public class Player{
     private int id;
@@ -20,7 +20,7 @@ public class Player{
     }
 
 
-    @NotNull
+    //@NotNull
     public static Player getOrCreate(int id, String name) {
         database db = database.getInstance();
         Player existingPlayer = db.getPlayer(id);

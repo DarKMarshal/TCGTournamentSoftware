@@ -60,9 +60,8 @@ public class SearchService {
 
             System.out.println("Would you like to search again? (Y/N)");
             rerun = scanner.nextLine();
-            rerun = rerun.toUpperCase();
 
-        } while (rerun.equals("Y"));
+        } while (rerun.equalsIgnoreCase("Y"));
     }
 
     private static void displayTournament(Tournament tournament) {
