@@ -35,6 +35,7 @@ public class menuHandler {
                 break;
             case 3:
                 System.out.println("Comparing players...\n");
+                ComparisonService.comparePlayersMenu();
                 break;
             default:
                 System.out.println("Invalid selection\n");

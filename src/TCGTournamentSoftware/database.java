@@ -57,7 +57,8 @@ public class database implements iDatabase {
         String createPlayers = """
             CREATE TABLE IF NOT EXISTS players (
                 id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL
+                name TEXT NOT NULL,
+                championship_points INTEGER DEFAULT 0
             )
         """;
 
@@ -108,10 +109,11 @@ public class database implements iDatabase {
 
     @Override
     public void savePlayer(Player player) {
-        String sql = "INSERT OR REPLACE INTO players (id, name) VALUES (?, ?)";
+        String sql = "INSERT OR REPLACE INTO players (id, name, championship_points) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, player.getId());
             pstmt.setString(2, player.getName());
+            pstmt.setInt(3, player.getChampionshipPoints());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error saving player: " + player.getName());
@@ -125,7 +127,7 @@ public class database implements iDatabase {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Player(rs.getInt("id"), rs.getString("name"));
+                return new Player(rs.getInt("id"), rs.getString("name"), rs.getInt("championship_points"));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving player with ID: " + id);
@@ -141,13 +143,28 @@ public class database implements iDatabase {
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 int id = rs.getInt("id");
-                players.put(id, new Player(id, rs.getString("name")));
+                players.put(id, new Player(id, rs.getString("name"), rs.getInt("championship_points")));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving players");
             e.printStackTrace();
         }
         return players;
+    }
+
+    private void updatePlayerChampionshipPoints(List<PlayerResult> results) throws SQLException {
+        String sql = "UPDATE players SET championship_points = championship_points + ? WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            for (PlayerResult result : results) {
+                int pointsEarned = result.getChampionshipPointsEarned();
+                if (pointsEarned > 0) {
+                    pstmt.setInt(1, pointsEarned);
+                    pstmt.setInt(2, result.getPlayer().getId());
+                    pstmt.addBatch();
+                }
+            }
+            pstmt.executeBatch();
+        }
     }
 
     @Override
@@ -173,6 +190,7 @@ public class database implements iDatabase {
             // Save divisions and results
             for (DivisionTournament division : tournament.getDivisions()) {
                 saveDivision(tournament.getId(), division);
+                updatePlayerChampionshipPoints(division.getResults());
             }
 
             connection.commit();
