@@ -2,6 +2,8 @@
 
 A Java-based tournament management system for Trading Card Games that handles player registration, tournament organization, and results tracking.
 
+Project is archived to preserve the state as submitted.
+
 ## Features
 
 - **Player Management**: Register and track players across multiple tournaments
