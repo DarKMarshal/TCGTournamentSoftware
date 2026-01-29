@@ -82,4 +82,29 @@ public class ResultEntryService {
         System.out.println("Tournament saved successfully!");
     }
 
+    public static void importFromTdf() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the path to the .tdf file: ");
+        String filepath = scanner.nextLine();
+
+        try {
+            Tournament tournament = TdfParser.parseTdfFile(filepath);
+            System.out.println("\n✓ Tournament imported successfully!");
+            System.out.println("  Name: " + tournament.getName());
+            System.out.println("  Divisions: " + tournament.getDivisions().size());
+
+            // Display division details
+            for (DivisionTournament division : tournament.getDivisions()) {
+                System.out.println("    - " + division.getAgeDivision() + " (" + division.getResults().size() + " players)");
+            }
+
+        } catch (java.io.FileNotFoundException e) {
+            System.out.println("✗ Error: File not found at path: " + filepath);
+        } catch (Exception e) {
+            System.out.println("✗ Error importing TDF file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }
